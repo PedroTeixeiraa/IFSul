@@ -1,1 +1,1 @@
-# Repositório dos exercícios das aulas do IFSUL
+# 📔 Repositório para estudos do IFSUL
