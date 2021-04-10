@@ -7,7 +7,7 @@ USE compubras;
 SELECT
 	c.CodCliente,
 	c.Nome,
-	temp.CodPedido
+	pv.CodPedido
 FROM
 	cliente c
 INNER JOIN (
@@ -19,9 +19,9 @@ INNER JOIN (
 		INNER JOIN vendedor v ON
 			v.CodVendedor = p.CodVendedor
 		WHERE v.FaixaComissao = 'A'
-	) temp ON
-	temp.CodCliente = c.CodCliente
-ORDER BY c.Nome, temp.CodPedido;
+	) pv ON
+	pv.CodCliente = c.CodCliente
+ORDER BY c.Nome, pv.CodPedido;
 
 -- 2) Crie uma consulta que exiba o nome do cliente, endereço, cidade, UF, CEP, código do pedido
 -- e prazo de entrega dos pedidos que NÃO sejam de vendedores que ganham menos de R$ 1500,00. 
@@ -33,8 +33,8 @@ SELECT
 	c.Cidade,
 	c.Uf,
 	c.Cep,
-	temp.CodPedido,
-	temp.PrazoEntrega
+	p.CodPedido,
+	p.PrazoEntrega
 FROM
 	cliente c
 INNER JOIN (
@@ -53,8 +53,8 @@ INNER JOIN (
 				WHERE
 					v.SalarioFixo < 1500
 			)
-	) temp ON
-	temp.CodCliente = c.CodCliente;
+	) p ON
+	p.CodCliente = c.CodCliente;
 
 -- 3) Crie uma consulta que exiba o nome do cliente, cidade e estado, dos clientes que fizeram algum 
 -- pedido no ano de 2015. Ordene os resultados pelos nomes dos clientes em ordem alfabética. Linhas: 1291
@@ -115,7 +115,7 @@ ORDER BY
 
 SELECT
 	c.Nome,
-	temp.nome_vendedor,
+	pv.nome_vendedor,
 	c.Uf
 FROM
 	cliente c
@@ -129,8 +129,8 @@ INNER JOIN (
 			v.CodVendedor = p.CodVendedor
 		GROUP BY
 			p.CodCliente
-	) temp ON
-	temp.CodCliente = c.CodCliente
+	) pv ON
+	pv.CodCliente = c.CodCliente
 WHERE
 	c.Uf IN ('SC')
 GROUP BY

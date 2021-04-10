@@ -90,7 +90,7 @@ WHERE
 
 SELECT
 	v.Nome,
-	temp.total_vendas
+	p.total_vendas
 FROM
 	vendedor v
 INNER JOIN (
@@ -103,10 +103,10 @@ INNER JOIN (
 			YEAR(p.DataPedido) = 2015
 		GROUP BY
 			p.CodVendedor
-	) temp ON
-	temp.CodVendedor = v.CodVendedor
+	) p ON
+	p.CodVendedor = v.CodVendedor
 ORDER BY
-	temp.total_vendas DESC;
+	p.total_vendas DESC;
 
 -- 5) Anulada
 
@@ -117,7 +117,7 @@ ORDER BY
 
 SELECT
 	v.Nome,
-	COALESCE(p.comissao, ROUND(0.00, 2)) AS comissao_dos_vendedores
+	COALESCE(pippr.comissao, ROUND(0.00, 2)) AS comissao_dos_vendedores
 FROM
 	vendedor v
 LEFT JOIN (
@@ -132,8 +132,8 @@ LEFT JOIN (
 			pr.CodProduto = ip.CodProduto
 		GROUP BY
 			p.CodVendedor
-	) p ON
-	p.CodVendedor = v.CodVendedor
+	) pippr ON
+	pippr.CodVendedor = v.CodVendedor
 GROUP BY
 	v.CodVendedor
 ORDER BY
@@ -145,7 +145,7 @@ ORDER BY
 
 SELECT
 	c.Nome,
-	COALESCE(SUM(p.totalVendido), ROUND(0.00, 2)) AS total
+	COALESCE(SUM(pippr.totalVendido), ROUND(0.00, 2)) AS total
 FROM
 	cliente c
 LEFT JOIN (
@@ -162,8 +162,8 @@ LEFT JOIN (
 			YEAR(p.DataPedido) = 2015
 		GROUP BY
 			p.CodCliente
-	) p ON
-	p.CodCliente = c.CodCliente
+	) pippr ON
+	pippr.CodCliente = c.CodCliente
 WHERE
 	c.Uf IN (
 		'RS', 'SC'
@@ -171,14 +171,14 @@ WHERE
 GROUP BY
 	c.CodCliente
 ORDER BY
-	p.totalVendido;
+	pippr.totalVendido;
 
 -- 8) Exiba um ranking com o nome do vendedor e o total vendido por ele no ano de 2014. Além disso, o total devem 
 -- ter o valor exibido arredondado (2 números depois da vírgula). A consulta externa é em vendedor. Linhas: 246
 
 SELECT
 	v.Nome,
-	COALESCE(SUM(p.totalVendido), ROUND(0.00, 2)) AS total
+	COALESCE(SUM(pippr.totalVendido), ROUND(0.00, 2)) AS total
 FROM
 	vendedor v
 LEFT JOIN (
@@ -195,8 +195,8 @@ LEFT JOIN (
 			YEAR(p.DataPedido) = 2014
 		GROUP BY
 			p.CodVendedor
-	) p ON
-	p.CodVendedor = v.CodVendedor
+	) pippr ON
+	pippr.CodVendedor = v.CodVendedor
 GROUP BY
 	v.CodVendedor
 ORDER BY
@@ -209,7 +209,7 @@ ORDER BY
 SELECT
 	pr.CodProduto,
 	pr.Descricao,
-	p.quantidadeVendida
+	ip.quantidadeVendida
 FROM
 	produto pr
 INNER JOIN (
@@ -224,10 +224,10 @@ INNER JOIN (
 			p.DataPedido BETWEEN '2014-08-12' AND '2014-10-27'
 		GROUP BY
 			i.CodProduto
-	) p ON
-	p.CodProduto = pr.CodProduto
+	) ip ON
+	ip.CodProduto = pr.CodProduto
 ORDER BY
-	p.QuantidadeVendida DESC;
+	ip.QuantidadeVendida DESC;
 
 -- 10) Crie uma consulta que retorne o nome do cliente e o total comprado por este no ano de 2014 e no ano de 2015. 
 -- A consulta também deve retornar o saldo da diferença entre o total comprado no ano de 2015 e o total de 2014,

@@ -51,7 +51,7 @@ ORDER BY
 	c.Endereco,
 	c.Cidade,
 	c.Uf,
-	COALESCE(temp.tpc, 0) AS total
+	COALESCE(p.tpc, 0) AS total
 FROM
 	cliente c
 LEFT JOIN (
@@ -62,8 +62,8 @@ LEFT JOIN (
 			pedido p
 		GROUP BY
 			p.CodCliente
-	) temp ON
-	c.CodCliente = temp.CodCliente;
+	) p ON
+	c.CodCliente = p.CodCliente;
 
 -- 4) Mostre o código do pedido, a data de entrega, a data do pedido, o código do cliente, o código
 -- do vendedor e a quantidade total de unidades em cada pedido. Note que não é necessário
@@ -71,7 +71,7 @@ LEFT JOIN (
 
  SELECT
 	p.*,
-	COALESCE(temp.Quantidade, 0) AS produtos
+	COALESCE(ip.Quantidade, 0) AS produtos
 FROM
 	pedido p
 LEFT JOIN (
@@ -82,8 +82,8 @@ LEFT JOIN (
 			itempedido ip
 		GROUP BY
 			ip.CodPedido
-	) temp ON
-	temp.CodPedido = p.CodPedido
+	) ip ON
+	ip.CodPedido = p.CodPedido
 ORDER BY
 	produtos DESC;
 
@@ -109,7 +109,7 @@ ORDER BY
 
  SELECT
 	p.*,
-	COALESCE(temp.Quantidade, 0) AS total
+	COALESCE(ip.Quantidade, 0) AS total
 FROM
 	produto p
 INNER JOIN (
@@ -120,8 +120,8 @@ INNER JOIN (
 			itempedido ip
 		GROUP BY
 			ip.CodProduto
-	) temp ON
-	temp.CodProduto = p.CodProduto
+	) ip ON
+	ip.CodProduto = p.CodProduto
 ORDER BY
 	total DESC;
 
@@ -194,7 +194,7 @@ WHERE
 
  SELECT
 	p.*,
-	COALESCE(temp.total, 0) AS total
+	COALESCE(ip.total, 0) AS total
 FROM
 	produto p
 LEFT JOIN (
@@ -205,8 +205,8 @@ LEFT JOIN (
 			itempedido ip
 		GROUP BY
 			ip.CodProduto
-	) temp ON
-	temp.CodProduto = p.CodProduto
+	) ip ON
+	ip.CodProduto = p.CodProduto
 ORDER BY
 	total DESC;
 
@@ -215,7 +215,7 @@ ORDER BY
 
  SELECT
 	p.*,
-	temp.total
+	ippr.total
 FROM
 	pedido p
 LEFT JOIN (
@@ -228,10 +228,10 @@ LEFT JOIN (
 			pr.CodProduto = ip.CodProduto
 		GROUP BY
 			ip.CodPedido
-	) temp ON
-	temp.CodPedido = p.CodPedido
+	) ippr ON
+	ippr.CodPedido = p.CodPedido
 ORDER BY
-	temp.total DESC;
+	ippr.total DESC;
 
 -- 11) Crie um ranking contendo o nome dos vendedores e a quantidade total de vendas (total de pedidos) efetuados por 
 -- cada um os vendedores. Ordene o ranking do vendedor com o maior número de vendas (pedidos vendidos aos clientes)
@@ -239,7 +239,7 @@ ORDER BY
 
  SELECT
 	v.Nome,
-	temp.total
+	p.total
 FROM
 	vendedor v
 LEFT JOIN (
@@ -250,10 +250,10 @@ LEFT JOIN (
 			pedido p
 		GROUP BY
 			p.CodVendedor
-	) temp ON
-	temp.CodVendedor = v.CodVendedor
+	) p ON
+	p.CodVendedor = v.CodVendedor
 ORDER BY
-	temp.total DESC;
+	p.total DESC;
 
 -- 12) Crie um ranking contendo o nome dos vendedores o valor total gasto por cada cliente na loja.
 -- Note que o valor total não é por pedido e sim por cliente (se um cliente efetuou mais de um pedido
@@ -261,8 +261,8 @@ ORDER BY
 
  SELECT
 	v.Nome AS nome_vendedor,
-	temp.nome_cliente,
-	temp.valor_gasto
+	piprc.nome_cliente,
+	piprc.valor_gasto
 FROM
 	vendedor v
 INNER JOIN (
@@ -281,10 +281,10 @@ INNER JOIN (
 		GROUP BY
 			p.CodCliente,
 			p.CodVendedor
-	) temp ON
-	temp.CodVendedor = v.CodVendedor
+	) piprc ON
+	piprc.CodVendedor = v.CodVendedor
 ORDER BY
-	temp.valor_gasto DESC;
+	piprc.valor_gasto DESC;
 
 -- 13) Mostre os dados dos produtos (código, descrição e valor unitário) bem como a quantidade
 -- total de unidades vendidas em 2015 para cada um dos produtos. Ordene a lista pela quantidade total
@@ -292,7 +292,7 @@ ORDER BY
 
  SELECT
 	p.*,
-	temp.total
+	ippe.total
 FROM
 	produto p
 INNER JOIN (
@@ -307,10 +307,10 @@ INNER JOIN (
 			YEAR(pe.DataPedido) = 2015
 		GROUP BY
 			ip.CodProduto
-	) temp ON
-	temp.CodProduto = p.CodProduto
+	) ippe ON
+	ippe.CodProduto = p.CodProduto
 ORDER BY
-	temp.total DESC;
+	ippe.total DESC;
 
 -- 14) Mostre os dados dos produtos (código, descrição e valor unitário), bem como a quantidade
 -- de unidades vendidas e o valor total arrecadado com cada produto. A lista deve ser ordenada pelo
@@ -318,8 +318,8 @@ ORDER BY
 
  SELECT
 	p.*,
-	COALESCE(temp.unidades_vendidas, 0),
-	COALESCE(SUM(temp.unidades_vendidas * P.ValorUnitario), 0) AS total_vendido
+	COALESCE(ippe.unidades_vendidas, 0),
+	COALESCE(SUM(ippe.unidades_vendidas * p.ValorUnitario), 0) AS total_vendido
 FROM
 	produto p
 LEFT JOIN (
@@ -332,8 +332,8 @@ LEFT JOIN (
 			ip.CodPedido = pe.CodPedido
 		GROUP BY
 			ip.CodProduto
-	) temp ON
-	temp.CodProduto = p.CodProduto
+	) ippe ON
+	ippe.CodProduto = p.CodProduto
 GROUP BY
 	p.CodProduto
 ORDER BY
@@ -344,7 +344,7 @@ ORDER BY
 
  SELECT
 	v.Nome,
-	COALESCE(temp.total_vendido, 0) AS total_vendido
+	COALESCE(pippr.total_vendido, 0) AS total_vendido
 FROM
 	vendedor v
 LEFT JOIN (
@@ -359,7 +359,7 @@ LEFT JOIN (
 			pr.CodProduto = ip.CodProduto
 		GROUP BY
 			p.CodVendedor
-	) temp ON
-	temp.CodVendedor = v.CodVendedor
+	) pippr ON
+	pippr.CodVendedor = v.CodVendedor
 ORDER BY
-	temp.total_vendido DESC;
+	pippr.total_vendido DESC;
