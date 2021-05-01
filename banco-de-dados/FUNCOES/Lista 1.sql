@@ -1,9 +1,8 @@
 USE compubras;
 
--- 1. Retorne o número mais o nome do mês em português (1 - Janeiro) de acordo com o parâmetro
+-- Retorne o número mais o nome do mês em português (1 - Janeiro) de acordo com o parâmetro
 -- informado que deve ser uma data. Para testar, crie uma consulta que retorne o cliente e mês de
 -- venda (número e nome do mês).
-
 
 DELIMITER $$
 CREATE FUNCTION diames(d date) RETURNS VARCHAR(30)
@@ -27,7 +26,13 @@ BEGIN
 END $$
 DELIMITER ;
 
-SELECT diames(now());
+SELECT
+	c.Nome,
+	diames(p.DataPedido) AS MES_PEDIDO
+FROM
+	cliente c
+INNER JOIN pedido p ON
+	p.CodCliente = c.CodCliente;
 
 -- 2. Retorne o número mais o nome do dia da semana (0 - Segunda) em português, como parâmetro de
 -- entrada receba uma data. Para testar, crie uma consulta que retorne o número do pedido, nome do
@@ -82,7 +87,7 @@ FROM
     cliente c;
     
 -- 4. Crie uma função que retorne a Inscrição Estadual no formato #######-##. Para testar a função
--- criada exiba os dados do cliente com a IE formatada corretamente utilizando a função criada.    
+-- criada exiba os dados do cliente com a IE formatada corretamente utilizando a função criada.
     
 DELIMITER $$
 CREATE FUNCTION inscricaoEstadualFormatada(ie VARCHAR(9)) RETURNS VARCHAR(20)
@@ -105,7 +110,7 @@ FROM
 -- se for entre 3 e 7 dias deverá ser enviado como encomenda normal, caso seja maior que este prazo
 -- deverá ser utilizado uma encomenda não prioritária. Como dados de entrada recebe a data do
 -- pedido e o prazo de entrega e o retorno será um varchar. Note que para criar esta função você
--- deverá utilizar a cláusula IF.    
+-- deverá utilizar a cláusula IF.
     
 DELIMITER $$
 CREATE FUNCTION tipoEnvioPedido(dataPedido date, prazoEntrega date) RETURNS VARCHAR(30)
@@ -134,7 +139,7 @@ FROM
 -- 6. Crie uma função que faça a comparação entre dois números inteiros. Caso os dois números sejam
 -- iguais a saída deverá ser “x é igual a y”, no qual x é o primeiro parâmetro e y o segundo parâmetro.
 -- Se x for maior, deverá ser exibido “x é maior que y”. Se x for menor, deverá ser exibido “x é menor
--- que y”.
+-- que y”
 
 DELIMITER $$
 CREATE FUNCTION compararXY(x INT, y INT) RETURNS VARCHAR(20)

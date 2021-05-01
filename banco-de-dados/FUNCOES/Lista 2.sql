@@ -74,8 +74,49 @@ DELIMITER ;
 SELECT detalhesProdutoMaisCaro() AS DETALHES_PRODUTO_MAIS_CARO;
     
 -- 4. Crie uma função que receba como parâmetros o código do produto com maior valor unitário e o
--- código do produto com menor valor unitário. Utilize as funções dos exercícios 2 e 3. Retorne a
--- soma dos dois.   
+-- código do produto com menor valor unitário. Retorne a soma dos dois.  
+
+DELIMITER $$
+CREATE FUNCTION codigoProdutoMaisCaro() RETURNS INTEGER
+DETERMINISTIC
+BEGIN 
+	DECLARE codigoProdutoMaisCaro INTEGER;
+    
+    SELECT p.CodProduto INTO codigoProdutoMaisCaro FROM produto p ORDER BY p.ValorUnitario DESC LIMIT 1;
+    
+    RETURN codigoProdutoMaisCaro;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE FUNCTION codigoProdutoMaisBarato() RETURNS INTEGER
+DETERMINISTIC
+BEGIN 
+	DECLARE codigoProdutoMaisCaro INTEGER;
+    
+    SELECT p.CodProduto INTO codigoProdutoMaisCaro FROM produto p ORDER BY p.ValorUnitario LIMIT 1;
+    
+    RETURN codigoProdutoMaisCaro;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE FUNCTION somaValorUnitarioProduto(codigoProdutoMaisCaro INT, codigoProdutoMaisBarato INT) RETURNS DOUBLE
+DETERMINISTIC
+BEGIN 
+	DECLARE valorUnitarioProdutoMaisBarato DOUBLE;
+    DECLARE valorUnitarioProdutoMaisCaro DOUBLE;
+    
+    SELECT p.ValorUnitario INTO valorUnitarioProdutoMaisBarato FROM produto p WHERE p.CodProduto = codigoProdutoMaisBarato;
+    
+    SELECT p.ValorUnitario INTO valorUnitarioProdutoMaisCaro FROM produto p WHERE p.CodProduto = codigoProdutoMaisCaro;
+    
+    
+    RETURN TRUNCATE(valorUnitarioProdutoMaisBarato + valorUnitarioProdutoMaisCaro, 2);
+END $$
+DELIMITER ;
+
+SELECT somaValorUnitarioProduto(codigoProdutoMaisCaro(), codigoProdutoMaisBarato());
 
 -- 5. Crie uma função que retorne a média do valor unitário dos produtos. Crie uma consulta que utilize
 -- esta função. 
@@ -130,7 +171,6 @@ BEGIN
 END $$
 DELIMITER ;
 
-DROP FUNCTION clienteMaisPedidos;
 SELECT clienteMaisPedidos(2013, 8) AS DETALHES_CLIENTE_MAIS_PEDIDO;
 
 -- 7. Faça uma função que retorna a soma dos valores dos pedidos feitos por um determinado cliente.
