@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,34 +7,37 @@ public class PilhaDinamica {
 
     private final List<Integer> pilha;
     private int length;
-    private Integer top;
+    private Integer topo;
 
     public PilhaDinamica() {
-        this.pilha = new ArrayList<Integer>();
+        this.pilha = new ArrayList<>();
         this.length = 0;
     }
 
-    public int getTop() {
-        return top;
+    public int getTopo() {
+        return topo;
     }
 
     public void push(Integer element) {
-        this.pilha.add(length, element);
+        this.pilha.add(element);
         length++;
-        this.top = element;
+        this.topo = element;
     }
 
     public Integer pop() {
-        if (!verifyEmpty()) {
-            Integer valor = pilha.get(length- 1);
+        if (!isEmpty()) {
+            Integer valor = pilha.get(length - 1);
             this.pilha.remove(length-1);
             length--;
+            if (!isEmpty()) {
+                this.topo = pilha.get(length - 1);
+            }
             return valor;
         }
         return 0;
     }
 
-    public boolean verifyEmpty() {
+    public boolean isEmpty() {
         return length == 0;
     }
 

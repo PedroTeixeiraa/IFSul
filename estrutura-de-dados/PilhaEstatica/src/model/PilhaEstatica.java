@@ -1,41 +1,43 @@
+package model;
+
 public class PilhaEstatica {
 
     private final int[] pilha;
     private int length;
-    private int top;
+    private int topo;
 
     public PilhaEstatica(int range) {
         this.pilha = new int[range];
         this.length = 0;
     }
 
-    public int getTop() {
-        return top;
+    public int getTopo() {
+        return topo;
     }
 
     public void push(int element) {
-        if (!verifyFull()) {
+        if (!isFull()) {
             this.pilha[length] = element;
             length++;
-            this.top = element;
+            this.topo = element;
         }
     }
 
     public void pop() {
-        if (!verifyEmpty()) {
+        if (!isEmpty()) {
             this.pilha[length - 1] = 0;
             length--;
-            if (!verifyEmpty()) {
-                this.top = pilha[length - 1];
+            if (!isEmpty()) {
+                this.topo = pilha[length - 1];
             }
         }
     }
 
-    public boolean verifyFull() {
+    public boolean isFull() {
         return length == pilha.length;
     }
 
-    public boolean verifyEmpty() {
+    public boolean isEmpty() {
         return length == 0;
     }
 

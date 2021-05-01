@@ -1,53 +1,72 @@
+import model.PilhaDinamica;
 import model.PilhaEstatica;
 
 public class Main {
 
     public static void main(String[] args) {
-        PilhaEstatica pilhaEstatica = new PilhaEstatica(10);
 
-        System.out.println("Vazia " + pilhaEstatica.verifyEmpty());
-        pilhaEstatica.push(10);
-        pilhaEstatica.push(8);
-        pilhaEstatica.push(5);
-        pilhaEstatica.push(2);
-        pilhaEstatica.pop();
-        System.out.println("Cheia " + pilhaEstatica.verifyFull());
+        System.out.println("Pilha Estática");
 
-        System.out.println("Topo " + pilhaEstatica.elementoTopo());
-        System.out.println(pilhaEstatica);
+        PilhaEstatica pe = new PilhaEstatica(10);
 
-        ////// testes da atividade 1
+        System.out.println("Vazia " + pe.isEmpty());
+        pe.push(10);
+        pe.push(8);
+        pe.push(5);
+        pe.push(2);
+        pe.pop();
+        System.out.println("Cheia " + pe.isFull());
 
-        PilhaEstatica pilhaEstatica1 = new PilhaEstatica(5);
-        PilhaEstatica pilhaEstatica2 = new PilhaEstatica(5);
-        PilhaEstatica pilhaEstatica3 = new PilhaEstatica(5);
+        System.out.println("Topo " + pe.getTopo());
+        System.out.println(pe);
 
-        pilhaEstatica1.push(2);
-        pilhaEstatica1.push(5);
-        pilhaEstatica1.push(8);
-        pilhaEstatica1.push(7);
-        pilhaEstatica1.push(1);
+        System.out.println("Pilha Dinâmica");
 
-        pilhaEstatica2.push(pilhaEstatica1.pop());
-        pilhaEstatica3.push(pilhaEstatica2.pop());
+        PilhaDinamica pd = new PilhaDinamica();
+        pd.push(10);
+        pd.push(8);
+        pd.push(5);
+        pd.push(2);
+        pd.push(5);
+        pd.pop();
 
-        pilhaEstatica2.push(pilhaEstatica1.pop());
-        pilhaEstatica2.push(pilhaEstatica1.pop());
-        pilhaEstatica2.push(pilhaEstatica1.pop());
-        pilhaEstatica2.push(pilhaEstatica1.pop());
+        System.out.println("Vazia " + pd.isEmpty());
+        System.out.println("Topo " + pd.getTopo());
+        System.out.println(pd);
 
-        pilhaEstatica3.push(pilhaEstatica2.pop());
-        pilhaEstatica3.push(pilhaEstatica2.pop());
+        System.out.println("Exercício Atividade 1");
 
-        pilhaEstatica1.push(pilhaEstatica2.pop());
+        PilhaDinamica pd1 = new PilhaDinamica();
+        PilhaDinamica pd2 = new PilhaDinamica();
+        PilhaDinamica pd3 = new PilhaDinamica();
 
-        pilhaEstatica3.push(pilhaEstatica2.pop());
+        pd1.push(2);
+        pd1.push(5);
+        pd1.push(8);
+        pd1.push(7);
+        pd1.push(1);
 
-        pilhaEstatica2.push(pilhaEstatica1.pop());
-        pilhaEstatica3.push(pilhaEstatica2.pop());
+        pd2.push(pd1.pop());
+        pd3.push(pd2.pop());
+
+        pd2.push(pd1.pop());
+        pd2.push(pd1.pop());
+        pd2.push(pd1.pop());
+        pd2.push(pd1.pop());
+
+        pd3.push(pd2.pop());
+        pd3.push(pd2.pop());
+
+        pd1.push(pd2.pop());
+
+        pd3.push(pd2.pop());
+
+        pd2.push(pd1.pop());
+        pd3.push(pd2.pop());
 
 
-        System.out.println("/////////////////");
-        System.out.println(pilhaEstatica3);
+        System.out.println("Resultado:");
+        System.out.println(pd3);
     }
+
 }
