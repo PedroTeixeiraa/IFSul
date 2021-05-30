@@ -24,7 +24,7 @@ if (isset($_POST['create'])) {
     $sql = "INSERT INTO users(name, email) VALUES('$name', '$email')";
     $result = mysqli_query($conn, $sql);
     if ($result) {
-      echo "success";
+      header("Location: ../read.php?success=successfully created");
     } else {
       header("Location: ../index.php?error=Unknown error occurred&$user_data");
     }
