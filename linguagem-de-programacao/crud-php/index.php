@@ -57,6 +57,8 @@
       >
         Create
       </button>
+
+      <a href="read.php" class"link-primary">View</a>
     </form>
   </div>
 </body>

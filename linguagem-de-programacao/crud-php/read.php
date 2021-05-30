@@ -43,8 +43,19 @@
                 <td><?=$rows['name']?></td>  
                 <td><?php echo $rows['email']; ?></td>
                 <td>
-                  <a href="update.php?id=<?=$rows['id']?>" 
-                    class="btn btn-success">Update</a>
+                  <a 
+                    href="update.php?id=<?=$rows['id']?>" 
+                    class="btn btn-success"
+                  >
+                    Update
+                  </a>
+                  
+                  <a 
+                    href="php/delete.php?id=<?=$rows['id']?>" 
+                    class="btn btn-danger"
+                  >
+                    Delete
+                  </a>
                 </td>
               </tr>
             <?php } ?>
