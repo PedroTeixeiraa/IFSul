@@ -1,24 +1,24 @@
-<?php include "php/read.php"; ?>
+<?php include "../../php/funcionario/read.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Read</title>
+  <title>Visualizar Funcionários</title>
   <link 
     rel="stylesheet" 
     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
     crossorigin="anonymous"
   >
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/style_read.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/style_read.css">
 </head>
 <body>
   <div class="container">
     <div class="box">
-      <h4 class="display-4 text-center">Read</h4><hr>
+      <h4 class="display-4 text-center">Funcionários Registrados</h4><hr>
       <?php if (isset($_GET['error'])) { ?>
         <div class="alert alert-success" role="alert">
           <?php echo $_GET['success']; ?>
@@ -40,18 +40,18 @@
               $i++; ?>
               <tr>
                 <th scope="row"><?=$i?></th>
-                <td><?=$rows['name']?></td>  
+                <td><?=$rows['nome']?></td>  
                 <td><?php echo $rows['email']; ?></td>
                 <td>
                   <a 
-                    href="update.php?id=<?=$rows['id']?>" 
+                    href="./update.php?codigo=<?=$rows['codigo']?>" 
                     class="btn btn-success"
                   >
                     Update
                   </a>
                   
                   <a 
-                    href="php/delete.php?id=<?=$rows['id']?>" 
+                    href="../../php/funcionario/delete.php?codigo=<?=$rows['codigo']?>" 
                     class="btn btn-danger"
                   >
                     Delete

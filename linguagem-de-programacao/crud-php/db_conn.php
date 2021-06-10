@@ -1,12 +1,12 @@
 <?php
 
-$sname = "localhost";
-$uname = "root";
-$password = "";
+$servidor = "localhost";
+$usuario = "root";
+$senha = '';
 
-$db_name = "my_db";
+$banco = 'crud';
 
-$conn = mysqli_connect($sname, $uname, $password, $db_name);
+$conn = mysqli_connect($servidor, $usuario, $senha, $banco);
 
 if (!$conn) {
   echo "Connection Failed!";
