@@ -1,22 +1,23 @@
+<?php include('../../php/cliente/update.php')?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create</title>
+  <title>Atualizar Cliente</title>
   <link 
     rel="stylesheet" 
     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
     crossorigin="anonymous"
   >
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div class="container">
-    <form action="php/create.php" method="post"> 
-      <h4 class="display-4 text-center">Create</h4><hr><br>
+    <form action="../../php/cliente/update.php" method="post"> 
+      <h4 class="display-4 text-center">Editar Cliente</h4><hr><br>
       
       <?php if (isset($_GET['error'])) { ?>
         <div class="alert alert-danger" role="alert">
@@ -31,9 +32,7 @@
           class="form-control" 
           id="name" 
           name="name"
-          placeholder="Enter name"
-          value="<?php if (isset($_GET['name']))
-                  echo ($_GET['name']); ?>"
+          value="<?=$row['nome']?>"
         >
       </div>
 
@@ -44,18 +43,21 @@
           class="form-control" 
           id="email" 
           name="email"
-          placeholder="Enter email"
-          value="<?php if (isset($_GET['email']))
-                  echo ($_GET['email']); ?>"
+          value="<?=$row['email']?>"
         >
       </div>
+	  <input type="text"
+	  		 name="codigo"
+			 value="<?=$row['codigo']?>"
+			 hidden
+			>
 
       <button 
         type="submit" 
         class="btn btn-primary"
-        name="create"
+        name="update"
       >
-        Create
+        Update
       </button>
 
       <a href="read.php" class"link-primary">View</a>
@@ -63,3 +65,4 @@
   </div>
 </body>
 </html>
+
